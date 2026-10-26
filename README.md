@@ -18,8 +18,63 @@ chosen randomly from the set of invertible n × n matrices (modulo 26).
 7. The cipher can, be adapted to an alphabet with any number of letters.
 8. All arithmetic just needs to be done modulo the number of letters instead of modulo.
 ```
+## Program
+```
+def vigenere_encrypt(plaintext, key):
+    plaintext = plaintext.upper()
+    key = key.upper()
+    ciphertext = ""
+    j = 0
+    
+    for char in plaintext:
+        if char.isalpha():
+            row = ord(key[j % len(key)]) - ord('A')
+            col = ord(char) - ord('A')
+            
+            # Use the Vigenere table
+            encrypted = chr((row + col) % 26 + ord('A'))
+            ciphertext += encrypted
+            j += 1
+        else:
+            ciphertext += char
+            
+    return ciphertext
+
+def vigenere_decrypt(ciphertext, key):
+    ciphertext = ciphertext.upper()
+    key = key.upper()
+    plaintext = ""
+    j = 0
+    
+    for char in ciphertext:
+        if char.isalpha():
+            row = ord(key[j % len(key)]) - ord('A')
+            col = ord(char) - ord('A')
+            
+            # Find plaintext using the Vigenere table
+            decrypted = chr((col - row) % 26 + ord('A'))
+            plaintext += decrypted
+            j += 1
+        else:
+            plaintext += char
+            
+    return plaintext
+
+message = input("Enter plaintext: ")
+key = input("Enter key: ")
+
+if key.isalpha():
+    encrypted = vigenere_encrypt(message, key)
+    print("Encrypted text:", encrypted)
+    
+    decrypted = vigenere_decrypt(encrypted, key)
+    print("Decrypted text:", decrypted)
+else:
+    print("Key must contain only alphabets.")
+```
 ## Output
-<img width="1917" height="876" alt="Screenshot 2026-10-25 104637" src="https://github.com/user-attachments/assets/6480e107-a28f-4039-a892-1bb8dd369a0d" />
+<img width="1917" height="926" alt="image" src="https://github.com/user-attachments/assets/d5ae2665-f8cc-4531-af25-f917c4177b43" />
+
 
 ## Result
 The program is executed successfully. 
